@@ -1,38 +1,40 @@
-import test from "@playwright/test";
+import test, { expect } from "@playwright/test";
+import { HomePage } from "../pages/HomePage.ts";
+import { RegisterPage } from "../pages/RegisterPage.ts";
 
 test("Register test", async ({ page }) => {
+  const account = crypto.randomUUID(); // random account name
+  const password = "testing143"; // password
+  const fullName = "testing playwright"; // full name
+
+  const homePage = new HomePage(page);
+  const registerPage = new RegisterPage(page);
   // Navigate to the login page (demo1.cybersoft.edu.vn)
   await page.goto("https://demo1.cybersoft.edu.vn/");
-  //click "Đăng ký" button
-  await page.getByRole("link", { name: "Đăng Ký" }).click();
-  // nhập "tài khoản"
-  await page.getByRole("textbox", { name: "Tài Khoản" }).click();
-  await page.getByRole("textbox", { name: "Tài Khoản" }).fill("testing143");
-  await page.getByRole("textbox", { name: "Tài Khoản" }).press("Tab");
-  // nhập "mật khẩu"
-  await page
-    .getByRole("textbox", { name: "Mật Khẩu", exact: true })
-    .fill("testing143");
-  await page
-    .getByRole("textbox", { name: "Mật Khẩu", exact: true })
-    .press("Tab");
-  // nhập "nhập lại mật khẩu"
-  await page.getByRole("button").first().press("Tab");
-  await page
-    .getByRole("textbox", { name: "Nhập lại mật khẩu" })
-    .fill("testing143");
-  await page.getByRole("textbox", { name: "Nhập lại mật khẩu" }).press("Tab");
-  await page.getByRole("button").nth(1).press("Tab");
-  //nhập "họ tên"
-  await page
-    .getByRole("textbox", { name: "Họ Tên" })
-    .fill("testing playwright");
-  await page.getByRole("textbox", { name: "Họ Tên" }).press("Tab");
-  // nhập "email"
-  await page
-    .getByRole("textbox", { name: "Email" })
-    .fill("testingplaywright@gmail.com");
 
   //click "Đăng ký" button
-  await page.getByRole("button", { name: "Đăng ký" }).click();
+  homePage.getNavbarComponent().navigateToRegister();
+
+  // nhập "tài khoản"
+  await registerPage.enterAccount(account);
+
+  // nhập "mật khẩu"
+  await registerPage.enterPassword(password);
+
+  // nhập "nhập lại mật khẩu"
+  await registerPage.enterConfirmPassword(password);
+
+  //nhập "họ tên"
+  await registerPage.enterFullName(fullName);
+
+  // nhập "email"
+  await registerPage.enterEmail(`${account}@gmail.com`);
+
+  //click "Đăng ký" button
+  await registerPage.clickRegister();
+
+  const lblRegis = page.getByRole("heading", {
+    name: "Đăng ký thành công",
+  });
+  await expect(lblRegis).toBeVisible();
 });
