@@ -1,14 +1,12 @@
-import test, { expect } from "@playwright/test";
-import { HomePage } from "../pages/HomePage.ts";
-import { RegisterPage } from "../pages/RegisterPage.ts";
+import { test, expect } from "../../fixtures/page-fixture.ts";
 
-test("Register test", async ({ page }) => {
+test("Register test", async ({ page, homePage, registerPage }) => {
   const account = crypto.randomUUID(); // random account name
   const password = "testing143"; // password
   const fullName = "testing playwright"; // full name
 
-  const homePage = new HomePage(page);
-  const registerPage = new RegisterPage(page);
+  // const homePage = new HomePage(page);
+  // const registerPage = new RegisterPage(page);
   // Navigate to the login page (demo1.cybersoft.edu.vn)
   await page.goto("https://demo1.cybersoft.edu.vn/");
 

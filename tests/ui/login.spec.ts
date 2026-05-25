@@ -1,13 +1,11 @@
-import { LoginPage } from "./../pages/LoginPage";
-import test, { expect } from "@playwright/test";
-import { HomePage } from "../pages/HomePage.ts";
+import { test, expect } from "../../fixtures/page-fixture.ts";
 
-test("Login test", async ({ page }) => {
+test("Login test", async ({ page, homePage, loginPage }) => {
   const account = "testing142"; // account name
   const password = "testing142"; // password
 
-  const homePage = new HomePage(page);
-  const loginPage = new LoginPage(page);
+  // const homePage = new HomePage(page);
+  // const loginPage = new LoginPage(page);
   // Navigate to the login page (demo1.cybersoft.edu.vn)
   await page.goto("https://demo1.cybersoft.edu.vn/");
   // Click "Đăng nhập" button
